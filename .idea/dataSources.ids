@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - securitydashboard@localhost" uuid="09abe55d-463a-4fca-998b-68bc880fb1ac">
+    <database-info product="MySQL" version="5.5.41-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <schema name="" catalog="securitydashboard"/>
+    <table name="authorities" schema="" catalog="securitydashboard" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="role_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="created_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="modificated_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="user_changed_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="authoritiesrolefk" columns="role_id" ref-table="role" ref-schema="" ref-catalog="securitydashboard" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="authoritiesuserfk" columns="user_id" ref-table="user" ref-schema="" ref-catalog="securitydashboard" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="useridroleididx" unique="true" columns="user_id,role_id"/>
+      <index name="rolefk_idx" unique="false" columns="role_id"/>
+    </table>
+    <table name="group" schema="" catalog="securitydashboard" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="groupname_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="modificated_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="user_changed_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="groupauthoritiesidfk" table="group_authorities" schema="" catalog="securitydashboard" columns="group_id"/>
+      <exported-key name="groupmembersidfk" table="group_members" schema="" catalog="securitydashboard" columns="group_id"/>
+    </table>
+    <table name="group_authorities" schema="" catalog="securitydashboard" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="authority_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="group_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="created_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="modificated_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="user_changed_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="groupauthoritiesidfk" columns="group_id" ref-table="group" ref-schema="" ref-catalog="securitydashboard" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="groupauthoritiesidfk_idx" unique="false" columns="group_id"/>
+    </table>
+    <table name="group_members" schema="" catalog="securitydashboard" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="group_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="created_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="modificated_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="user_changed_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="groupmembersidfk" columns="group_id" ref-table="group" ref-schema="" ref-catalog="securitydashboard" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="usermembersidfk" columns="user_id" ref-table="user" ref-schema="" ref-catalog="securitydashboard" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="groupmembersidfk_idx" unique="false" columns="group_id"/>
+      <index name="usermembersidfk" unique="false" columns="user_id"/>
+    </table>
+    <table name="role" schema="" catalog="securitydashboard" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="role_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="modificated_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="user_changed_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="authoritiesrolefk" table="authorities" schema="" catalog="securitydashboard" columns="role_id"/>
+    </table>
+    <table name="user" schema="" catalog="securitydashboard" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="username_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="firstname_x" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="lastname_x" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email_x" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="enabled_b" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="salt_x" sqlType="VARCHAR" precision="25" scale="0" nullable="false" jdbcType="12" def="JzAn"/>
+      <column name="created_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="modificated_d" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <column name="user_changed_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="authoritiesuserfk" table="authorities" schema="" catalog="securitydashboard" columns="user_id"/>
+      <exported-key name="usermembersidfk" table="group_members" schema="" catalog="securitydashboard" columns="user_id"/>
+      <index name="idx_id" unique="true" columns="id"/>
+      <index name="unique_email" unique="true" columns="email_x"/>
+      <index name="unique_username" unique="true" columns="username_x"/>
+    </table>
+    <table name="userrole" schema="" catalog="securitydashboard" type="VIEW">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <column name="username_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="role_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="MA=="/>
+      <column name="role_x" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+  </data-source>
+</component>

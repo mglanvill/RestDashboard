@@ -1,0 +1,141 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+apply plugin: 'project-report'
+
+ant.importBuild 'build.xml'
+
+war {
+    baseName = "${deployname}"
+    version = ''
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    maven { url "http://repo.spring.io/libs-release" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "http://repo.spring.io/libs-snapshot" }
+    maven { url "http://maven.vaadin.com/vaadin-addons" }
+    maven { url "http://oss.sonatype.org/content/repositories/vaadin-snapshots" }
+    mavenCentral()
+}
+
+configurations {
+    providedRuntime
+    querydslapt
+    compile.exclude group: 'commons-logging'
+}
+
+dependencies {
+    description "BONECP"
+    compile("com.jolbox:bonecp-spring:$bonecpVersion")
+
+    description "HIBERNATE"
+    //compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+    //compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:$hibernatejpaVersion"
+    //compile "org.hibernate:hibernate-validator:$hibernatevalidatorVersion"
+
+    description "JAVAX SERVLET"
+    //compile "javax.servlet:javax.servlet-api:$javaxservletVersion"
+
+    description "JAYWAY JSONPATH"
+    compile "com.jayway.jsonpath:json-path:$jaywayVersion"
+
+    description "LOGBACK"
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+
+    description "LOMBOK"
+    compile("org.projectlombok:lombok:$lombokVersion")
+
+    description "MYSQL"
+    runtime("mysql:mysql-connector-java:$mysqlVersion")
+
+    description "QUERYDSL"
+    compile("com.mysema.querydsl:querydsl-jpa:$querydslVersion")
+    querydslapt("com.mysema.querydsl:querydsl-apt:$querydslVersion")
+
+    description "SPRING"
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile "org.springframework.data:spring-data-rest-webmvc:$springdatarestwebmvcVersion"
+    compile("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+    //compile("org.springframework.hateoas:spring-hateoas")
+// needed when @EnableEntityLinks is used
+    //compile("org.springframework.plugin:spring-plugin-core")
+    /*
+    compile "org.springframework.data:spring-data-jpa:$springdatajpaVersion"
+    compile "org.springframework.data:spring-data-rest-webmvc:$springdatarestwebmvcVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework:spring-web:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework.security:spring-security-web:$springsecurityVersion"
+    compile("org.springframework.boot:spring-boot-starter-jersey")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    */
+
+    description "VAADIN"
+    compile("com.vaadin:vaadin-server:$vaadinVersion")
+    compile("com.vaadin:vaadin-themes:$vaadinVersion")
+    compile("com.vaadin:vaadin-client-compiled:$vaadinVersion")
+    compile("com.vaadin:vaadin-spring:$vaadinspringVersion")
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs "$buildDir/generated-sources/java"
+        }
+    }
+}
+
+
+task generateQueryDSL(type: JavaCompile) {
+    group = 'querydsl'
+    description = 'Generates the QueryDSL query types'
+
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.querydslapt
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor",
+            "com.mysema.query.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+
+    inputs.files sourceSets.main.java
+    outputs.dir destinationDir
+}
+
+compileJava {
+    dependsOn generateQueryDSL
+    source generateQueryDSL.destinationDir
+}
+
+task runBrowser(type: Exec) {
+    commandLine 'firefox', 'http://localhost:8085/demo'
+}
+
+description 'ORDERING OF TASK'
+
+tomcatstop.dependsOn war
+tomcatundeploy.dependsOn tomcatstop
+tomcatdeploy.dependsOn tomcatundeploy
+tomcatstart.dependsOn tomcatdeploy
+runBrowser.dependsOn tomcatstart
+

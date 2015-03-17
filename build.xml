@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".">
+
+    <property file="gradle.properties"/>
+    <property name="server" value="localhost"/>
+    <property name="user" value="root"/>
+    <property name="password" value="1pwtd2h3"/>
+    <property name="deploy.url" value="http://localhost:8085/manager/text"/>
+    <property name="deploy.user" value="deploy"/>
+    <property name="deploy.pass" value="1pwtd2h3"/>
+    <property name="deploy.context" value="${deployname}"/>
+    <property name="deploy.war" value="build/libs/${deploy.context}.war"/>
+
+    <path id="anttomcat">
+        <fileset dir="/opt/tomcat8/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="/opt/tomcat8/bin">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef resource="org/apache/catalina/ant/catalina.tasks" classpathref="anttomcat" />
+
+    <target name="tomcatundeploy" >
+        <undeploy url="${deploy.url}" failOnError="false" username="${deploy.user}" password="${deploy.pass}" path="/${deploy.context}"/>
+    </target>
+
+    <target name="tomcatdeploy" >
+        <deploy url="${deploy.url}" username="${deploy.user}" password="${deploy.pass}" path="/${deploy.context}" war="file:${deploy.war}"/>
+    </target>
+
+    <target name="tomcatstart" >
+        <start url="${deploy.url}" failOnError="false" username="${deploy.user}" password="${deploy.pass}" path="/${deploy.context}"/>
+    </target>
+
+    <target name="tomcatstop" >
+        <stop url="${deploy.url}" failOnError="false" username="${deploy.user}" password="${deploy.pass}" path="/${deploy.context}"/>
+    </target>
+</project>
