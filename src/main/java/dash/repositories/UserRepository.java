@@ -11,10 +11,4 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @RestResource(path = "users")
 public interface UserRepository extends PagingAndSortingRepository<User, Long>, QueryDslPredicateExecutor<User> {
 
-    //@RestResource(path = "findbyusername", rel = "findbyusername")
-    //User findByUsername(@Param("username_x") String usernameX);
-
-    //@RestResource(path = "findbyusernamein", rel = "findbyusernamein")
-    //User findByUsernameIn(@Param("username_x") Collection<String> usernames);
-
 }

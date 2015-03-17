@@ -1,18 +1,40 @@
 package dash;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.hateoas.*;
+import org.springframework.hateoas.client.Traverson;
+import org.springframework.hateoas.hal.HalLinkDiscoverer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = RestDashboardApplication.class)
-@WebAppConfiguration
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RestDashboardApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+	private static final ParameterizedTypeReference<PagedResources<Resource<UserResource>>> TYPE_REFERENCE = new ParameterizedTypeReference<PagedResources<Resource<UserResource>>>() {};
 
+	public static void main(String[] args) {
+		try {
+			String urlstring = "http://localhost:8085/RestDashboard";
+			URL url = new URL(urlstring);
+			URLConnection connection = url.openConnection();
+			connection.setRequestProperty("Accept", "application/json");
+			LinkDiscoverer discoverer = new HalLinkDiscoverer();
+			Link link = discoverer.findLinkWithRel("users", connection.getInputStream());
+
+			URI uri = new URI(urlstring);
+			Traverson traverson = new Traverson(uri, MediaTypes.HAL_JSON);
+			Map<String, Object> parameters = new HashMap<>();
+			PagedResources<Resource<UserResource>> resources = traverson.follow(link.getRel()).withTemplateParameters(parameters).toObject(TYPE_REFERENCE);
+
+			for (Resource<UserResource> resource : resources) {
+				System.out.println(resource.getContent().authority.role.descX);
+			}
+
+		} catch (Exception ex) {
+			System.err.println(ex);
+		}
+	}
 }

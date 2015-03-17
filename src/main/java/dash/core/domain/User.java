@@ -44,7 +44,4 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "userByUserId")
     private Set<Authorities> authoritiesesById = new HashSet<Authorities>();
 
-    @OneToMany(mappedBy = "userByUserId")
-    private Set<GroupMembers> groupMembersById  = new HashSet<GroupMembers>();
-
 }
