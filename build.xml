@@ -4,10 +4,10 @@
     <property file="gradle.properties"/>
     <property name="server" value="localhost"/>
     <property name="user" value="root"/>
-    <property name="password" value="1pwtd2h3"/>
+    <property name="password" value="12345"/>
     <property name="deploy.url" value="http://localhost:8085/manager/text"/>
     <property name="deploy.user" value="deploy"/>
-    <property name="deploy.pass" value=""/>
+    <property name="deploy.pass" value="12345"/>
     <property name="deploy.context" value="${deployname}"/>
     <property name="deploy.war" value="build/libs/${deploy.context}.war"/>
 
