@@ -30,11 +30,20 @@ public class RestDashboardApplicationTests {
 			PagedResources<Resource<UserResource>> resources = traverson.follow(link.getRel()).withTemplateParameters(parameters).toObject(TYPE_REFERENCE);
 
 			for (Resource<UserResource> resource : resources) {
-				System.out.println(resource.getContent().authority.role.descX);
+				//System.out.println(resource.getContent().usernameX);
+
+				if (resource.hasLinks()) {
+					urlstring = resource.getId().getHref(); //http://localhost:8085/RestDashboard/users/1
+					Link links = resource.getLink("authoritiesesById"); //http://localhost:8085/RestDashboard/users/1/authoritiesesById
+					uri = new URI(links.getHref());
+					traverson = new Traverson(uri, MediaTypes.HAL_JSON);
+					//PagedResources<Resource<UserResource>> authresources = traverson.follow("roleByRoleId").withTemplateParameters(parameters).toObject(TYPE_REFERENCE);
+					System.out.println(traverson.follow("authoritieses").withTemplateParameters(parameters).toObject(TYPE_REFERENCE));
+				}
 			}
 
 		} catch (Exception ex) {
-			System.err.println(ex);
+			ex.printStackTrace();
 		}
 	}
 }

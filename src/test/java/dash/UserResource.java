@@ -1,13 +1,11 @@
 package dash;
 
 import dash.core.util.EmailAddress;
-import org.springframework.hateoas.ResourceSupport;
 
 /**
  * Created by mglanvill on 2015/03/17.
  */
-public class UserResource extends ResourceSupport {
-
+public class UserResource {
     public String usernameX;
 
     public String passwordX;

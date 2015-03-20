@@ -1,15 +1,15 @@
 buildscript {
     repositories {
-        maven { url "http://repo.spring.io/libs-release" }
+        ///maven { url "http://repo.spring.io/libs-release" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        //classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+//apply plugin: 'spring-boot'
 apply plugin: 'war'
 apply plugin: 'project-report'
 
@@ -43,12 +43,12 @@ dependencies {
     compile("com.jolbox:bonecp-spring:$bonecpVersion")
 
     description "HIBERNATE"
-    //compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
-    //compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:$hibernatejpaVersion"
-    //compile "org.hibernate:hibernate-validator:$hibernatevalidatorVersion"
+    compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+    compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:$hibernatejpaVersion"
+    compile "org.hibernate:hibernate-validator:$hibernatevalidatorVersion"
 
     description "JAVAX SERVLET"
-    //compile "javax.servlet:javax.servlet-api:$javaxservletVersion"
+    compile "javax.servlet:javax.servlet-api:$javaxservletVersion"
 
     description "JAYWAY JSONPATH"
     compile "com.jayway.jsonpath:json-path:$jaywayVersion"
@@ -67,16 +67,17 @@ dependencies {
     querydslapt("com.mysema.querydsl:querydsl-apt:$querydslVersion")
 
     description "SPRING"
+/*
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile "org.springframework.data:spring-data-rest-webmvc:$springdatarestwebmvcVersion"
     compile("org.springframework.boot:spring-boot-starter-web")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-
-    //compile("org.springframework.hateoas:spring-hateoas")
+*/
+    compile("org.springframework.hateoas:spring-hateoas")
 // needed when @EnableEntityLinks is used
     //compile("org.springframework.plugin:spring-plugin-core")
-    /*
+
     compile "org.springframework.data:spring-data-jpa:$springdatajpaVersion"
     compile "org.springframework.data:spring-data-rest-webmvc:$springdatarestwebmvcVersion"
     compile "org.springframework:spring-context:$springVersion"
@@ -84,16 +85,18 @@ dependencies {
     compile "org.springframework:spring-orm:$springVersion"
     compile "org.springframework:spring-web:$springVersion"
     compile "org.springframework:spring-webmvc:$springVersion"
-    compile "org.springframework.security:spring-security-web:$springsecurityVersion"
-    compile("org.springframework.boot:spring-boot-starter-jersey")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    */
+    //compile "org.springframework.security:spring-security-web:$springsecurityVersion"
+    //compile("org.springframework.boot:spring-boot-starter-jersey")
+    //testCompile("org.springframework.boot:spring-boot-starter-test")
+
 
     description "VAADIN"
+    /*
     compile("com.vaadin:vaadin-server:$vaadinVersion")
     compile("com.vaadin:vaadin-themes:$vaadinVersion")
     compile("com.vaadin:vaadin-client-compiled:$vaadinVersion")
     compile("com.vaadin:vaadin-spring:$vaadinspringVersion")
+    */
 }
 
 sourceSets {
